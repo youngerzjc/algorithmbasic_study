@@ -25,7 +25,7 @@ package part3_listnode;
  *
  * 因此，当发现 slow 与fast 相遇时，我们再将快指针指向链表头部；随后，它和slow 每次向后移动一个位置。最终，它们会在入环点相遇。
  */
-public class Code03_Cycle_142 {
+public class Code23_Cycle_142 {
 
 
     public static void main(String[] args) {
