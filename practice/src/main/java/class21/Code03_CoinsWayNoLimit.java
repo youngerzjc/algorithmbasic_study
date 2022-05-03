@@ -91,7 +91,8 @@ public class Code03_CoinsWayNoLimit {
 			int aim = (int) (Math.random() * maxValue);
 			int ans1 = coinsWay(arr, aim);
 			int ans2 = dp1(arr, aim);
-			int ans3 = dp2(arr, aim);
+//			int ans3 = dp2(arr, aim);
+			int ans3 = process_1(arr, aim);
 			if (ans1 != ans2 || ans1 != ans3) {
 				System.out.println("Oops!");
 				printArray(arr);
@@ -103,6 +104,32 @@ public class Code03_CoinsWayNoLimit {
 			}
 		}
 		System.out.println("测试结束");
+	}
+
+	public static int process_1(int[] array, int aim){
+		if (array == null || array.length == 0 || aim < 0) {
+			return 0;
+		}
+		return process_1(array, aim, 0);
+	}
+	// 使用[i .. ] 凑出aim的方法数
+	public static int process_1(int[] array, int aim, int i){
+		// base case
+		if(aim == 0){
+			return 1;
+		}
+		if(aim < 0 || array.length == i){
+			return 0;
+		}
+		// 选择
+
+		// 使用i
+		int p1 = process_1(array, aim - array[i], i);
+
+		// 不使用i
+		int p2 = process_1(array, aim, i + 1);
+
+		return p1 + p2;
 	}
 
 }

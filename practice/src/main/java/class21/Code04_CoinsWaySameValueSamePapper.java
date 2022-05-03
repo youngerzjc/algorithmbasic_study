@@ -1,7 +1,12 @@
 package class21;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class Code04_CoinsWaySameValueSamePapper {
 
@@ -16,7 +21,7 @@ public class Code04_CoinsWaySameValueSamePapper {
 	}
 
 	public static Info getInfo(int[] arr) {
-		HashMap<Integer, Integer> counts = new HashMap<>();
+		HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
 		for (int value : arr) {
 			if (!counts.containsKey(value)) {
 				counts.put(value, 1);
@@ -131,10 +136,12 @@ public class Code04_CoinsWaySameValueSamePapper {
 			int aim = (int) (Math.random() * maxValue);
 			int ans1 = coinsWay(arr, aim);
 			int ans2 = dp1(arr, aim);
-			int ans3 = dp2(arr, aim);
+			int ans3 = process_n(arr, aim);
+//			int ans3 = dp2(arr, aim);
 			if (ans1 != ans2 || ans1 != ans3) {
 				System.out.println("Oops!");
-				printArray(arr);
+				System.out.println(Arrays.toString(arr));
+//				printArray(arr);
 				System.out.println(aim);
 				System.out.println(ans1);
 				System.out.println(ans2);
@@ -144,5 +151,64 @@ public class Code04_CoinsWaySameValueSamePapper {
 		}
 		System.out.println("测试结束");
 	}
+
+/*	public static void main(String[] args) {
+//		int[] arr = {13, 20, 18, 20, 15, 5, 19, 2, 3};
+		int[] arr = {5};
+
+		int aim = 10;
+		int ans3 = process_n(arr, aim);
+		System.out.println(ans3);
+	}*/
+
+	static Map<Integer, Integer> map;
+	public static int process_n(int[] array, int aim){
+		if (array == null || array.length == 0 || aim < 0) {
+			return 0;
+		}
+		map = new HashMap<Integer, Integer>();
+		for(int item : array){
+			if(map.containsKey(item)){
+				map.put(item, map.get(item) + 1);
+			}else{
+				map.put(item, 1);
+			}
+		}
+		int N = map.size();
+		int[] newArray = new int[N];
+		Set<Integer> set = map.keySet();
+		int count = 0;
+		for(int key : set){
+			newArray[count++] = key;
+		}
+
+		return process_n(newArray, aim, 0, map.get(newArray[0]));
+
+
+	}
+
+	public static int process_n(int[] array, int aim, int i, int rest){
+		if(rest < 0){
+			return 0;
+		}
+		if(aim == 0){
+			return 1;
+		}
+		if(aim < 0 || i == array.length){
+			return 0;
+		}
+
+		// 选择
+
+		// 使用
+		int p1 = process_n(array, aim - array[i], i, rest - 1);
+		// 不使用
+		int p2 = 0;
+		if(i+1 != array.length){
+			p2 = process_n(array, aim, i+1, map.get(array[i + 1]));
+		}
+		return p1 + p2;
+	}
+
 
 }

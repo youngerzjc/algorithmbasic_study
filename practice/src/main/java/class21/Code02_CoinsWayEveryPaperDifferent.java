@@ -1,5 +1,7 @@
 package class21;
 
+import java.util.Arrays;
+
 public class Code02_CoinsWayEveryPaperDifferent {
 
 	public static int coinWays(int[] arr, int aim) {
@@ -61,9 +63,11 @@ public class Code02_CoinsWayEveryPaperDifferent {
 			int[] arr = randomArray(maxLen, maxValue);
 			int aim = (int) (Math.random() * maxValue);
 			int ans1 = coinWays(arr, aim);
-			int ans2 = dp(arr, aim);
+//			int ans2 = dp(arr, aim);
+			int ans2 = process_n(arr, aim);
 			if (ans1 != ans2) {
 				System.out.println("Oops!");
+				System.out.println(Arrays.toString(arr));
 				printArray(arr);
 				System.out.println(aim);
 				System.out.println(ans1);
@@ -72,6 +76,29 @@ public class Code02_CoinsWayEveryPaperDifferent {
 			}
 		}
 		System.out.println("测试结束");
+	}
+
+	public static int process_n(int[] array, int aim){
+		/*if (array == null || array.length == 0 || aim < 0) {
+			return 0;
+		}*/
+		return process_n(array, aim, 0);
+	}
+	// [index ... ]中凑出aim的方法数
+	public static int process_n(int[] array, int aim, int i){
+		// base case
+		if(aim == 0){
+			return 1;
+		}
+		if(aim < 0 || i == array.length){
+			return 0;
+		}
+		// 选择
+		// 使用index
+		int p1 = process_n(array, aim - array[i], i + 1);
+		// 不使用index
+		int p2 = process_n(array, aim, i + 1);
+		return p1 + p2;
 	}
 
 }
