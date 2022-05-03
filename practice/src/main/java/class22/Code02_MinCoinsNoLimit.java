@@ -105,7 +105,8 @@ public class Code02_MinCoinsNoLimit {
 			int aim = (int) (Math.random() * maxValue);
 			int ans1 = minCoins(arr, aim);
 			int ans2 = dp1(arr, aim);
-			int ans3 = dp2(arr, aim);
+			int ans3 = process_n(arr, aim);
+//			int ans3 = dp2(arr, aim);
 			if (ans1 != ans2 || ans1 != ans3) {
 				System.out.println("Oops!");
 				printArray(arr);
@@ -116,6 +117,32 @@ public class Code02_MinCoinsNoLimit {
 			}
 		}
 		System.out.println("功能测试结束");
+	}
+
+
+	public static int process_n(int[] array, int aim) {
+
+		return process_n(array, aim, 0);
+	}
+
+	// 在[i .. ]中凑齐aim的最小货币数
+	public static int process_n(int[] array, int aim, int i) {
+		if (aim == 0) {
+			// aim为0了，需要使用0张货币
+			return 0;
+		}
+		if (aim < 0 || i == array.length) {
+			// 返回-1，代表无效
+			// return -1;
+			return Integer.MAX_VALUE;
+		}
+		// 使用
+		int p1 = process_n(array, aim - array[i], i);
+		p1 = (p1 == Integer.MAX_VALUE) ? p1 : p1 + 1;
+		// 不适用
+		int p2 = process_n(array, aim, i + 1);
+
+		return Math.min(p1, p2);
 	}
 
 }
