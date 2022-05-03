@@ -64,4 +64,32 @@ public class Code04_LongestCommonSubsequence {
 		return dp[N - 1][M - 1];
 	}
 
+
+	public static int process(String s1, String s2){
+		char[] chars1 = s1.toCharArray();
+		char[] chars2 = s2.toCharArray();
+
+		return process(chars1, chars2, 0, 0);
+	}
+
+	// s1 [L .. ] 和 s2 [R .. ]的最长公共子序列
+	public static int process(char[] chars1, char[] chars2, int L, int R){
+		if(L == chars1.length || R == chars2.length){
+			return 0;
+		}
+
+		int p1 = 0;int p2 = 0;int p3 = 0;
+		if(chars1[L] == chars2[R]){
+			p1 = process(chars1, chars2, L + 1, R + 1) + 1;
+		}else{
+			p2 = process(chars1, chars2, L + 1, R);
+
+			p3 = process(chars1, chars2, L, R + 1);
+		}
+		return Math.max(p1, Math.max(p2, p3));
+
+	}
+
+
+
 }
